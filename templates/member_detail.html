@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>{{ member.last_name }} {{ member.first_name }}</h3>
+    <a href="/member/{{ member.id }}/edit" class="btn btn-outline-primary btn-sm">Επεξεργασία</a>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">Στοιχεία</div>
+    <div class="card-body">
+        <p><strong>Ημ. Γέννησης:</strong> {{ member.birth_date or '-' }}</p>
+        <p><strong>Γονέας:</strong> {{ member.parent_name or '-' }}</p>
+        <p><strong>Τηλέφωνο:</strong> {{ member.parent_phone or '-' }}</p>
+        <p><strong>Email:</strong> {{ member.parent_email or '-' }}</p>
+        <p><strong>Διεύθυνση:</strong> {{ member.address or '-' }}</p>
+        <p><strong>Μηνιαία συνδρομή:</strong> {{ member.monthly_fee }} €</p>
+        {% if member.notes %}<p><strong>Σημειώσεις:</strong> {{ member.notes }}</p>{% endif %}
+    </div>
+</div>
+
+<div class="card mb-3 border-danger">
+    <div class="card-header bg-danger text-white">Κάρτα Υγείας</div>
+    <div class="card-body">
+        <p><strong>Αλλεργίες:</strong> {{ member.health_allergies or '-' }}</p>
+        <p><strong>Παθήσεις:</strong> {{ member.health_conditions or '-' }}</p>
+        <p><strong>Φάρμακα:</strong> {{ member.health_medications or '-' }}</p>
+        <p><strong>Γιατρός:</strong> {{ member.health_doctor or '-' }}</p>
+        <p><strong>Άλλες σημειώσεις:</strong> {{ member.health_notes or '-' }}</p>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">Τελευταίες Πληρωμές</div>
+    <div class="card-body p-0">
+        {% if payments %}
+        <ul class="list-group list-group-flush">
+            {% for p in payments %}
+            <li class="list-group-item">
+                {{ p.payment_date }} – {{ p.amount }} € 
+                <small class="text-muted">({{ p.period }} · {{ p.method }})</small>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="p-3 mb-0 text-muted">Δεν υπάρχουν πληρωμές</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">Τελευταίες Παρουσίες</div>
+    <div class="card-body p-0">
+        {% if attendance %}
+        <ul class="list-group list-group-flush">
+            {% for a in attendance %}
+            <li class="list-group-item">
+                {{ a.date }} – 
+                {% if a.present %}
+                    <span class="badge bg-success">Παρών</span>
+                {% else %}
+                    <span class="badge bg-secondary">Απών</span>
+                {% endif %}
+                {% if a.notes %}<small class="text-muted">{{ a.notes }}</small>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="p-3 mb-0 text-muted">Δεν υπάρχουν παρουσίες</p>
+        {% endif %}
+    </div>
+</div>
+
+<a href="/members" class="btn btn-outline-secondary">← Πίσω</a>
+{% endblock %}
