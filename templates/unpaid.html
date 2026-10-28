@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="mb-3">Απλήρωτοι – {{ period }}</h3>
+
+{% if members %}
+<div class="list-group">
+    {% for m in members %}
+    <a href="/member/{{ m.id }}" class="list-group-item list-group-item-action">
+        <strong>{{ m.last_name }} {{ m.first_name }}</strong><br>
+        <small class="text-muted">
+            {% if m.parent_phone %}{{ m.parent_phone }}{% endif %}
+            {% if m.parent_email %} · {{ m.parent_email }}{% endif %}
+        </small>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-success">
+    Όλα τα παιδιά έχουν πληρώσει για τον {{ period }}!
+</div>
+{% endif %}
+
+<div class="mt-3">
+    <a href="/payments" class="btn btn-primary">Καταχώρηση πληρωμής</a>
+</div>
+{% endblock %}
