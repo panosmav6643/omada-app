@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Παιδιά</h3>
+    <a href="/member/add" class="btn btn-primary">+ Νέο Παιδί</a>
+</div>
+
+{% if members %}
+<div class="list-group">
+    {% for m in members %}
+    <a href="/member/{{ m.id }}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ m.last_name }} {{ m.first_name }}</h5>
+        </div>
+        <small class="text-muted">
+            {% if m.parent_phone %}{{ m.parent_phone }}{% endif %}
+            {% if m.parent_email %} · {{ m.parent_email }}{% endif %}
+        </small>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">Δεν υπάρχουν παιδιά ακόμα. Πρόσθεσε το πρώτο!</div>
+{% endif %}
+{% endblock %}
