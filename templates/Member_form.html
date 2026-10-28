@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="mb-3">{% if member %}Επεξεργασία{% else %}Νέο Παιδί{% endif %}</h3>
+
+<form method="post">
+    <div class="card mb-3">
+        <div class="card-header">Στοιχεία Παιδιού</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Όνομα *</label>
+                    <input type="text" name="first_name" class="form-control" required
+                           value="{{ member.first_name if member else '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Επώνυμο *</label>
+                    <input type="text" name="last_name" class="form-control" required
+                           value="{{ member.last_name if member else '' }}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ημ. Γέννησης</label>
+                <input type="date" name="birth_date" class="form-control"
+                       value="{{ member.birth_date if member else '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Μηνιαία Συνδρομή (€)</label>
+                <input type="number" step="0.01" name="monthly_fee" class="form-control"
+                       value="{{ member.monthly_fee if member else '0' }}">
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Στοιχεία Γονέα</div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label">Όνομα Γονέα</label>
+                <input type="text" name="parent_name" class="form-control"
+                       value="{{ member.parent_name if member else '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Τηλέφωνο</label>
+                <input type="text" name="parent_phone" class="form-control"
+                       value="{{ member.parent_phone if member else '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email (για αποδείξεις)</label>
+                <input type="email" name="parent_email" class="form-control"
+                       value="{{ member.parent_email if member else '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Διεύθυνση</label>
+                <input type="text" name="address" class="form-control"
+                       value="{{ member.address if member else '' }}">
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Κάρτα Υγείας</div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label">Αλλεργίες</label>
+                <textarea name="health_allergies" class="form-control" rows="2">{{ member.health_allergies if member else '' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Παθήσεις / Ιατρικό ιστορικό</label>
+                <textarea name="health_conditions" class="form-control" rows="2">{{ member.health_conditions if member else '' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Φάρμακα</label>
+                <textarea name="health_medications" class="form-control" rows="2">{{ member.health_medications if member else '' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Γιατρός / Τηλέφωνο γιατρού</label>
+                <input type="text" name="health_doctor" class="form-control"
+                       value="{{ member.health_doctor if member else '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Άλλες σημειώσεις υγείας</label>
+                <textarea name="health_notes" class="form-control" rows="2">{{ member.health_notes if member else '' }}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Γενικές σημειώσεις</label>
+        <textarea name="notes" class="form-control" rows="2">{{ member.notes if member else '' }}</textarea>
+    </div>
+
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary btn-lg">Αποθήκευση</button>
+        <a href="/members" class="btn btn-outline-secondary">Ακύρωση</a>
+    </div>
+</form>
+{% endblock %}
