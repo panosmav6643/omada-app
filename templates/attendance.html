@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="mb-3">Παρουσιολόγιο</h3>
+
+<form method="get" class="mb-3">
+    <div class="input-group">
+        <input type="date" name="date" class="form-control" value="{{ selected_date }}">
+        <button class="btn btn-outline-primary" type="submit">Αλλαγή ημερομηνίας</button>
+    </div>
+</form>
+
+<form method="post">
+    <input type="hidden" name="date" value="{{ selected_date }}">
+
+    {% if members %}
+    <div class="list-group mb-3">
+        {% for m in members %}
+        <div class="list-group-item">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" name="present_{{ m.id }}" id="p{{ m.id }}"
+                    {% if existing.get(m.id) and existing[m.id].present %}checked{% endif %}
+                    {% if not existing.get(m.id) %}checked{% endif %}>
+                <label class="form-check-label" for="p{{ m.id }}">
+                    <strong>{{ m.last_name }} {{ m.first_name }}</strong>
+                </label>
+            </div>
+            <input type="text" name="notes_{{ m.id }}" class="form-control form-control-sm mt-1"
+                   placeholder="Σημείωση (προαιρετικό)"
+                   value="{{ existing[m.id].notes if existing.get(m.id) else '' }}">
+        </div>
+        {% endfor %}
+    </div>
+    <div class="d-grid">
+        <button type="submit" class="btn btn-success btn-lg">Αποθήκευση Παρουσιών</button>
+    </div>
+    {% else %}
+    <div class="alert alert-info">Δεν υπάρχουν παιδιά. Πρόσθεσε πρώτα παιδιά.</div>
+    {% endif %}
+</form>
+{% endblock %}
