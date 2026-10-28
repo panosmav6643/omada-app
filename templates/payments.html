@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="mb-3">Πληρωμές</h3>
+
+<div class="card mb-4">
+    <div class="card-header">Νέα Πληρωμή</div>
+    <div class="card-body">
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Παιδί *</label>
+                <select name="member_id" class="form-select" required>
+                    <option value="">-- Επίλεξε παιδί --</option>
+                    {% for m in members %}
+                    <option value="{{ m.id }}">{{ m.last_name }} {{ m.first_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ποσό (€) *</label>
+                <input type="number" step="0.01" name="amount" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Περίοδος (π.χ. Οκτώβριος 2025) *</label>
+                <input type="text" name="period" class="form-control" required placeholder="Οκτώβριος 2025">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ημερομηνία πληρωμής</label>
+                <input type="date" name="payment_date" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Τρόπος πληρωμής</label>
+                <select name="method" class="form-select">
+                    <option>Μετρητά</option>
+                    <option>Τράπεζα</option>
+                    <option>IRIS</option>
+                    <option>Άλλο</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Σημειώσεις</label>
+                <input type="text" name="notes" class="form-control">
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="send_email" id="send_email">
+                <label class="form-check-label" for="send_email">
+                    Στείλε απόδειξη με email στον γονέα
+                </label>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Καταχώρηση Πληρωμής</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h5>Τελευταίες πληρωμές</h5>
+{% if recent %}
+<div class="list-group">
+    {% for p in recent %}
+    <div class="list-group-item">
+        <strong>{{ p.last_name }} {{ p.first_name }}</strong><br>
+        {{ p.amount }} € · {{ p.period }} · {{ p.payment_date }}
+        <small class="text-muted">({{ p.method }})</small>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-muted">Δεν υπάρχουν πληρωμές ακόμα.</p>
+{% endif %}
+{% endblock %}
